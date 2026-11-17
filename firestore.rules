@@ -1,0 +1,23 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Prototype: all writes go through the backend (Firebase Admin SDK,
+    // which bypasses these rules). Clients may only read their own data
+    // and public, active service listings.
+    match /users/{uid} {
+      allow read: if request.auth != null && request.auth.uid == uid;
+      allow write: if false;
+    }
+    match /providerProfiles/{uid} {
+      allow read: if request.auth != null && request.auth.uid == uid;
+      allow write: if false;
+    }
+    match /verificationRequests/{id} {
+      allow read, write: if false;
+    }
+    match /serviceListings/{id} {
+      allow read: if resource.data.active == true;
+      allow write: if false;
+    }
+  }
+}
