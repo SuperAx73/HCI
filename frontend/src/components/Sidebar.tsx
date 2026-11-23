@@ -10,7 +10,7 @@ export function Sidebar() {
   const { appUser } = useAuth();
 
   const items: SidebarItem[] = [
-    { to: '/buscar', label: 'Buscar servicios' },
+    { to: '/categorias', label: 'Buscar servicios' },
     { to: '/perfil', label: 'Mi perfil' },
     ...(appUser?.activeRole === 'provider' ? [{ to: '/mis-publicaciones', label: 'Mis publicaciones' }] : []),
   ];
@@ -40,11 +40,13 @@ export function Sidebar() {
                 </NavLink>
               </li>
             )}
-            <li>
-              <NavLink to="/admin/verificaciones" className={({ isActive }) => (isActive ? 'sidebar-link active' : 'sidebar-link')}>
-                Panel admin
-              </NavLink>
-            </li>
+            {appUser.isAdmin && (
+              <li>
+                <NavLink to="/admin/verificaciones" className={({ isActive }) => (isActive ? 'sidebar-link active' : 'sidebar-link')}>
+                  Panel admin
+                </NavLink>
+              </li>
+            )}
           </ul>
         </div>
       )}

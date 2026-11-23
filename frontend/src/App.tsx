@@ -7,16 +7,19 @@ import { Avatar } from './components/Avatar';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { LoginPage } from './pages/LoginPage';
 import { RegisterPage } from './pages/RegisterPage';
+import { ForgotPasswordPage } from './pages/ForgotPasswordPage';
+import { ResetPasswordPage } from './pages/ResetPasswordPage';
 import { ProviderProfilePage } from './pages/ProviderProfilePage';
 import { AdminVerificationsPage } from './pages/AdminVerificationsPage';
-import { SearchListingsPage } from './pages/SearchListingsPage';
+import { CategoriesPage } from './pages/CategoriesPage';
+import { CategoryListingsPage } from './pages/CategoryListingsPage';
 import { MyListingsPage } from './pages/MyListingsPage';
 import { MyProfilePage } from './pages/MyProfilePage';
 
 function HomePage() {
   const { appUser } = useAuth();
-  if (!appUser) return <Navigate to="/buscar" replace />;
-  return appUser.activeRole === 'provider' ? <Navigate to="/mis-publicaciones" replace /> : <Navigate to="/buscar" replace />;
+  if (appUser?.activeRole === 'provider') return <Navigate to="/mis-publicaciones" replace />;
+  return <CategoriesPage />;
 }
 
 export default function App() {
@@ -34,7 +37,7 @@ export default function App() {
           </Link>
 
           <nav className="pill-tabs" aria-label="Navegación principal">
-            <NavLink to="/buscar" className={({ isActive }) => (isActive ? 'nav-active' : undefined)}>
+            <NavLink to="/categorias" className={({ isActive }) => (isActive ? 'nav-active' : undefined)}>
               Buscar
             </NavLink>
             {appUser?.activeRole === 'provider' && (
@@ -80,7 +83,11 @@ export default function App() {
               <Route path="/" element={<HomePage />} />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/registro" element={<RegisterPage />} />
-              <Route path="/buscar" element={<SearchListingsPage />} />
+              <Route path="/olvide-contrasena" element={<ForgotPasswordPage />} />
+              <Route path="/restablecer-contrasena" element={<ResetPasswordPage />} />
+              <Route path="/categorias" element={<CategoriesPage />} />
+              <Route path="/categorias/:oficio" element={<CategoryListingsPage />} />
+              <Route path="/buscar" element={<Navigate to="/categorias" replace />} />
               <Route
                 path="/perfil"
                 element={

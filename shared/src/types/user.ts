@@ -15,4 +15,5 @@ export interface AppUser {
   roles: UserRoles;
   activeRole: UserRole;
   createdAt: string;
+  isAdmin?: boolean;
 }

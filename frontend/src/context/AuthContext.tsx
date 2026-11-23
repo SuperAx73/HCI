@@ -1,9 +1,12 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
 import {
+  confirmPasswordReset as firebaseConfirmPasswordReset,
   createUserWithEmailAndPassword,
   onAuthStateChanged,
+  sendPasswordResetEmail,
   signInWithEmailAndPassword,
   signOut as firebaseSignOut,
+  verifyPasswordResetCode,
   type User as FirebaseUser,
 } from 'firebase/auth';
 import type { AppUser, UserRole } from '@oficios/shared';
@@ -19,6 +22,9 @@ interface AuthContextValue {
   logout: () => Promise<void>;
   refreshAppUser: () => Promise<void>;
   switchActiveRole: (role: UserRole) => Promise<void>;
+  requestPasswordReset: (email: string) => Promise<void>;
+  verifyResetCode: (oobCode: string) => Promise<string>;
+  confirmPasswordReset: (oobCode: string, newPassword: string) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextValue | null>(null);
@@ -70,9 +76,36 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setAppUser(user);
   }
 
+  async function requestPasswordReset(email: string) {
+    await sendPasswordResetEmail(auth, email, {
+      url: `${window.location.origin}/restablecer-contrasena`,
+      handleCodeInApp: true,
+    });
+  }
+
+  async function verifyResetCode(oobCode: string) {
+    return verifyPasswordResetCode(auth, oobCode);
+  }
+
+  async function confirmPasswordReset(oobCode: string, newPassword: string) {
+    await firebaseConfirmPasswordReset(auth, oobCode, newPassword);
+  }
+
   return (
     <AuthContext.Provider
-      value={{ firebaseUser, appUser, loading, register, login, logout, refreshAppUser, switchActiveRole }}
+      value={{
+        firebaseUser,
+        appUser,
+        loading,
+        register,
+        login,
+        logout,
+        refreshAppUser,
+        switchActiveRole,
+        requestPasswordReset,
+        verifyResetCode,
+        confirmPasswordReset,
+      }}
     >
       {children}
     </AuthContext.Provider>

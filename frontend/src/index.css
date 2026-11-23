@@ -606,6 +606,52 @@ legend {
   font-family: var(--font-display);
 }
 
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+  max-width: none;
+}
+
+.category-card {
+  padding: 0;
+}
+
+.category-card-link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 1.6rem 1rem;
+  color: var(--color-text);
+  text-decoration: none;
+  text-align: center;
+}
+
+.category-card-link h2 {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.oficio-icon-lg {
+  width: 56px;
+  height: 56px;
+}
+
+.breadcrumb {
+  margin: 0 0 0.75rem;
+}
+
+.breadcrumb a {
+  color: var(--color-text-muted);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.breadcrumb a:hover {
+  text-decoration: underline;
+}
+
 .preview-note {
   display: inline-block;
   background: color-mix(in srgb, var(--color-trust) 12%, var(--color-surface));

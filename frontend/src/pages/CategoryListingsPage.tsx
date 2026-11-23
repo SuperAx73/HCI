@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { OFICIOS } from '@oficios/shared';
 import { useSearchListings } from '../hooks/useServiceListings';
 import { TextField } from '../components/TextField';
@@ -7,22 +8,34 @@ import { TrustBadge } from '../components/TrustBadge';
 import { OficioIcon } from '../components/OficioIcon';
 import { MOCK_LISTINGS } from '../mocks/listings';
 
-export function SearchListingsPage() {
-  const [oficio, setOficio] = useState('');
+export function CategoryListingsPage() {
+  const { oficio: oficioParam } = useParams<{ oficio: string }>();
+  const navigate = useNavigate();
+  const oficio = oficioParam ? decodeURIComponent(oficioParam) : '';
   const [zonaCobertura, setZonaCobertura] = useState('');
   const { listings, loading } = useSearchListings({ oficio: oficio || undefined, zonaCobertura: zonaCobertura || undefined });
 
-  const showingMocks = import.meta.env.DEV && !loading && listings.length === 0 && !oficio && !zonaCobertura;
-  const visibleListings = showingMocks ? MOCK_LISTINGS : listings;
+  function handleOficioChange(nextOficio: string) {
+    if (nextOficio) {
+      navigate(`/categorias/${encodeURIComponent(nextOficio)}`, { replace: true });
+    } else {
+      navigate('/categorias');
+    }
+  }
+
+  const mockMatches = MOCK_LISTINGS.filter((m) => !oficio || m.oficio === oficio);
+  const showingMocks = import.meta.env.DEV && !loading && listings.length === 0 && !zonaCobertura && mockMatches.length > 0;
+  const visibleListings = showingMocks ? mockMatches : listings;
 
   return (
     <main>
-      <h1>Encuentra a alguien de confianza</h1>
-      <p className="page-intro">
-        Toda persona que publica aquí ya pasó por verificación de identidad.
+      <p className="breadcrumb">
+        <Link to="/categorias">← Todas las categorías</Link>
       </p>
+      <h1>{oficio ? oficio : 'Encuentra a alguien de confianza'}</h1>
+      <p className="page-intro">Toda persona que publica aquí ya pasó por verificación de identidad.</p>
       <form role="search" onSubmit={(e) => e.preventDefault()}>
-        <Select label="Oficio" value={oficio} onChange={(e) => setOficio(e.target.value)}>
+        <Select label="Oficio" value={oficio} onChange={(e) => handleOficioChange(e.target.value)}>
           <option value="">Todos los oficios</option>
           {OFICIOS.map((o) => (
             <option key={o} value={o}>

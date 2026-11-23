@@ -1,5 +1,5 @@
 import { useState, type FormEvent } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { TextField } from '../components/TextField';
 import { Button } from '../components/Button';
@@ -43,6 +43,9 @@ export function LoginPage() {
         {error && <p role="alert" className="text-field-error">{error}</p>}
         <Button type="submit">Entrar</Button>
       </form>
+      <p>
+        <Link to="/olvide-contrasena">¿Olvidaste tu contraseña?</Link>
+      </p>
     </main>
   );
 }

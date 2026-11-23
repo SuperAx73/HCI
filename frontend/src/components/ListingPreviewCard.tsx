@@ -9,7 +9,7 @@ interface ListingPreviewCardProps {
   precioReferencia: number | string;
 }
 
-/** Live preview of how a listing/profile will look to clients in /buscar, driven by in-progress form state. */
+/** Live preview of how a listing/profile will look to clients in /categorias/:oficio, driven by in-progress form state. */
 export function ListingPreviewCard({ titulo, oficio, zonaCobertura, descripcion, precioReferencia }: ListingPreviewCardProps) {
   return (
     <div className="card preview-card">

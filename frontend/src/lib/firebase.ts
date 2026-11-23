@@ -12,6 +12,7 @@ const firebaseConfig = {
 
 export const firebaseApp = initializeApp(firebaseConfig);
 export const auth = getAuth(firebaseApp);
+auth.languageCode = 'es';
 export const db = getFirestore(firebaseApp);
 export const storage = getStorage(firebaseApp);
 

@@ -20,7 +20,7 @@ export const authController = {
         firebaseUser.displayName ?? firebaseUser.email ?? 'Usuario',
       );
     }
-    res.json(user);
+    res.json({ ...user, isAdmin: req.isAdmin ?? false });
   },
 
   async register(req: AuthedRequest, res: Response) {
