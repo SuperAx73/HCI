@@ -5,3 +5,5 @@ export type { ServiceListing, ServiceListingFilters } from './types/serviceListi
 export type { VerificationRequest } from './types/verificationRequest.js';
 export { OFICIOS } from './types/oficios.js';
 export type { Oficio } from './types/oficios.js';
+export { normalizeSearchText } from './search.js';
+export type { Review, ReviewInput } from './types/review.js';

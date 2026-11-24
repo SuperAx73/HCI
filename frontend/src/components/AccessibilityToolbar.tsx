@@ -1,4 +1,5 @@
 import { useAccessibility } from '../context/AccessibilityContext';
+import { ContrastIcon, SunIcon, MoonIcon } from './NavIcons';
 
 const SIZES = [
   { value: 'normal', label: 'Tamaño de texto normal', short: 'A' },
@@ -30,6 +31,7 @@ export function AccessibilityToolbar() {
         aria-label="Alto contraste"
         onClick={() => setHighContrast(!highContrast)}
       >
+        <ContrastIcon width={15} height={15} />
         Contraste
       </button>
       <button
@@ -38,6 +40,7 @@ export function AccessibilityToolbar() {
         aria-label={theme === 'light' ? 'Cambiar a modo oscuro' : 'Cambiar a modo claro'}
         onClick={toggleTheme}
       >
+        {theme === 'light' ? <MoonIcon width={15} height={15} /> : <SunIcon width={15} height={15} />}
         {theme === 'light' ? 'Modo oscuro' : 'Modo claro'}
       </button>
     </div>

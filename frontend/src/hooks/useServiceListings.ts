@@ -30,13 +30,33 @@ export function useSearchListings(filters: ServiceListingFilters) {
     const params = new URLSearchParams();
     if (filters.oficio) params.set('oficio', filters.oficio);
     if (filters.zonaCobertura) params.set('zonaCobertura', filters.zonaCobertura);
+    if (filters.q) params.set('q', filters.q);
 
     setLoading(true);
     api
       .get<ServiceListing[]>(`/listings/search?${params.toString()}`)
       .then(setListings)
       .finally(() => setLoading(false));
-  }, [filters.oficio, filters.zonaCobertura]);
+  }, [filters.oficio, filters.zonaCobertura, filters.q]);
 
   return { listings, loading };
+}
+
+export function useListingByFolio(folio: number | undefined) {
+  const [listing, setListing] = useState<ServiceListing | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [notFound, setNotFound] = useState(false);
+
+  useEffect(() => {
+    if (!folio) return;
+    setLoading(true);
+    setNotFound(false);
+    api
+      .get<ServiceListing>(`/listings/folio/${folio}`)
+      .then(setListing)
+      .catch(() => setNotFound(true))
+      .finally(() => setLoading(false));
+  }, [folio]);
+
+  return { listing, loading, notFound };
 }

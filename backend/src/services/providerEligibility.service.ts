@@ -16,7 +16,9 @@ export interface EligibilityResult {
 export function evaluateProviderEligibility(profile: ProviderProfile | null): EligibilityResult {
   const missingFields = PROVIDER_PROFILE_REQUIRED_FIELDS.filter((field) => {
     const value = profile?.[field];
-    return value === undefined || value === null || value === '';
+    // '' covers empty strings; 0 covers precioReferencia, since a $0 reference price isn't a
+    // real listing — it's the number input's untouched default.
+    return value === undefined || value === null || value === '' || value === 0;
   });
 
   const profileComplete = !!profile && missingFields.length === 0;

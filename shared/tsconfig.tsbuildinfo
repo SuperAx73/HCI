@@ -1,1 +1,1 @@
-{"root":["./src/index.ts","./src/types/oficios.ts","./src/types/providerprofile.ts","./src/types/servicelisting.ts","./src/types/user.ts","./src/types/verificationrequest.ts"],"version":"5.9.3"}
+{"root":["./src/index.ts","./src/search.ts","./src/types/oficios.ts","./src/types/providerprofile.ts","./src/types/review.ts","./src/types/servicelisting.ts","./src/types/user.ts","./src/types/verificationrequest.ts"],"version":"5.9.3"}

@@ -1,5 +1,8 @@
+import { useRef } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useProviderEligibility } from '../hooks/useProviderEligibility';
+import { useSlidingIndicator } from '../hooks/useSlidingIndicator';
+import { UserIcon, WrenchIcon } from './NavIcons';
 
 /**
  * Lets a logged-in account toggle between the 'client' and 'provider' views.
@@ -9,6 +12,8 @@ import { useProviderEligibility } from '../hooks/useProviderEligibility';
 export function RoleSwitch() {
   const { appUser, switchActiveRole } = useAuth();
   const { eligibility, loading } = useProviderEligibility(!!appUser);
+  const toggleRef = useRef<HTMLDivElement>(null);
+  useSlidingIndicator(toggleRef, '.pill-toggle-active', [appUser?.activeRole]);
 
   if (!appUser) return null;
 
@@ -24,13 +29,15 @@ export function RoleSwitch() {
 
   return (
     <div role="group" aria-label="Cambiar tipo de perfil" className="role-switch">
-      <div className="pill-toggle">
+      <div ref={toggleRef} className="pill-toggle">
+        <span className="pill-indicator pill-indicator-accent" aria-hidden="true" />
         <button
           type="button"
           className={appUser.activeRole === 'client' ? 'pill-toggle-active' : ''}
           onClick={() => switchActiveRole('client')}
           aria-pressed={appUser.activeRole === 'client'}
         >
+          <UserIcon width={15} height={15} />
           Cliente
         </button>
         <button
@@ -41,6 +48,7 @@ export function RoleSwitch() {
           disabled={!providerEnabled}
           title={!providerEnabled ? 'Completa tu perfil y verificación para activar este modo' : undefined}
         >
+          <WrenchIcon width={15} height={15} />
           Prestador
         </button>
       </div>

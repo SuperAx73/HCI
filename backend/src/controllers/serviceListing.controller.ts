@@ -23,8 +23,22 @@ export const serviceListingController = {
   },
 
   async search(req: AuthedRequest, res: Response) {
-    const { oficio, zonaCobertura } = req.query as { oficio?: string; zonaCobertura?: string };
-    const listings = await serviceListingService.search({ oficio, zonaCobertura });
+    const { oficio, zonaCobertura, q } = req.query as { oficio?: string; zonaCobertura?: string; q?: string };
+    const listings = await serviceListingService.search({ oficio, zonaCobertura, q });
     res.json(listings);
+  },
+
+  async getByFolio(req: AuthedRequest, res: Response) {
+    const folio = Number(req.params.folio);
+    if (!Number.isInteger(folio)) {
+      res.status(400).json({ error: 'Folio inválido' });
+      return;
+    }
+    const listing = await serviceListingService.getByFolio(folio);
+    if (!listing) {
+      res.status(404).json({ error: 'No encontrado' });
+      return;
+    }
+    res.json(listing);
   },
 };

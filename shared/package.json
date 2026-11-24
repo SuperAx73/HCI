@@ -6,6 +6,10 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc -b",
-    "watch": "tsc -b -w"
+    "watch": "tsc -b -w",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "vitest": "^5.1.1"
   }
 }
