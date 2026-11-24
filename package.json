@@ -12,7 +12,8 @@
     "dev:frontend": "npm run dev -w frontend"
   },
   "overrides": {
-    "@grpc/grpc-js": "^1.14.7"
+    "@grpc/grpc-js": "^1.14.7",
+    "jose": "4.15.9"
   },
   "dependencies": {
     "firebase": "^13.3.0"
